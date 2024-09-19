@@ -347,7 +347,7 @@ class RoboVacEntity(StateVacuumEntity):
             self._attr_fan_speed = "Standard"
         elif self._attr_fan_speed == "Max":
             self._attr_fan_speed = "Turbo"
-        _LOGGER.(f"Fan speed updated to: {self._attr_fan_speed}")
+        _LOGGER.warn(f"Fan speed updated to: {self._attr_fan_speed}")
         # for G30
         self._attr_cleaning_area = self.tuyastatus.get(TUYA_CODES.CLEANING_AREA)
         self._attr_cleaning_time = self.tuyastatus.get(TUYA_CODES.CLEANING_TIME)
