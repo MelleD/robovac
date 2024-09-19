@@ -94,6 +94,7 @@ class TUYA_CODES(StrEnum):
     ERROR_CODE = "106"
     MODE = "5"
     FAN_SPEED = "130"
+    FAN_SPEED_NEU = "102"
     CLEANING_AREA = "110"
     CLEANING_TIME = "109"
     AUTO_RETURN = "135"
@@ -337,17 +338,22 @@ class RoboVacEntity(StateVacuumEntity):
         self.error_code = self.tuyastatus.get(TUYA_CODES.ERROR_CODE)
         self._attr_mode = self.tuyastatus.get(TUYA_CODES.MODE)
         self._attr_fan_speed = self.tuyastatus.get(TUYA_CODES.FAN_SPEED)
-        if self._attr_fan_speed == "No_suction":
+        self._attr_fan_speed_neu = self.tuyastatus.get(TUYA_CODES.FAN_SPEED_NEU)
+        _LOGGER.warning(f"Fan 130: {self._attr_fan_speed}")
+        _LOGGER.warning(f"Fan 102: {self._attr_fan_speed_neu}")
+        _LOGGER.warning(f"DPS: {self.tuyastatus}")
+        _LOGGER.warning(f"Fan Cached: {self.fan_speed}")
+
+        if self.fan_speed == "No_suction":
             self._attr_fan_speed = "No Suction"
-        elif self._attr_fan_speed == "Quiet":
+        elif self.fan_speed == "Quiet":
             self._attr_fan_speed = "Pure"
-        elif self._attr_fan_speed == "Boost_IQ":
+        elif self.fan_speed == "Boost_IQ":
             self._attr_fan_speed = "Max"
-        elif self._attr_fan_speed == "Turbo":
+        elif self.fan_speed == "Turbo":
             self._attr_fan_speed = "Standard"
-        elif self._attr_fan_speed == "Max":
+        elif self.fan_speed == "Max":
             self._attr_fan_speed = "Turbo"
-        _LOGGER.warn(f"Fan speed updated to: {self._attr_fan_speed}")
         # for G30
         self._attr_cleaning_area = self.tuyastatus.get(TUYA_CODES.CLEANING_AREA)
         self._attr_cleaning_time = self.tuyastatus.get(TUYA_CODES.CLEANING_TIME)
