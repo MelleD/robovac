@@ -337,12 +337,17 @@ class RoboVacEntity(StateVacuumEntity):
         self.error_code = self.tuyastatus.get(TUYA_CODES.ERROR_CODE)
         self._attr_mode = self.tuyastatus.get(TUYA_CODES.MODE)
         self._attr_fan_speed = self.tuyastatus.get(TUYA_CODES.FAN_SPEED)
-        if self.fan_speed == "No_suction":
+        if self._attr_fan_speed == "No_suction":
             self._attr_fan_speed = "No Suction"
-        elif self.fan_speed == "Boost_IQ":
-            self._attr_fan_speed = "Boost IQ"
-        elif self.fan_speed == "Quiet":
+        elif self._attr_fan_speed == "Quiet":
             self._attr_fan_speed = "Pure"
+        elif self._attr_fan_speed == "Boost_IQ":
+            self._attr_fan_speed = "Max"
+        elif self._attr_fan_speed == "Turbo":
+            self._attr_fan_speed = "Standard"
+        elif self._attr_fan_speed == "Max":
+            self._attr_fan_speed = "Turbo"
+        _LOGGER.(f"Fan speed updated to: {self._attr_fan_speed}")
         # for G30
         self._attr_cleaning_area = self.tuyastatus.get(TUYA_CODES.CLEANING_AREA)
         self._attr_cleaning_time = self.tuyastatus.get(TUYA_CODES.CLEANING_TIME)
