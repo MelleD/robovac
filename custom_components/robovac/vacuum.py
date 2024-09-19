@@ -93,7 +93,7 @@ class TUYA_CODES(StrEnum):
     STATE = "15"
     ERROR_CODE = "106"
     MODE = "5"
-    FAN_SPEED = "102"
+    FAN_SPEED = "130"
     CLEANING_AREA = "110"
     CLEANING_TIME = "109"
     AUTO_RETURN = "135"
