@@ -405,6 +405,12 @@ class RoboVacEntity(StateVacuumEntity):
             fan_speed = "Boost_IQ"
         elif fan_speed == "Pure":
             fan_speed = "Quiet"
+        elif fan_speed == "Standard":
+            fan_speed = "Turbo"
+        elif fan_speed == "Turbo":
+            fan_speed = "Max"
+        elif fan_speed == "Max":
+            fan_speed = "Boost_IQ"
         await self.vacuum.async_set({"102": fan_speed})
 
     async def async_send_command(
