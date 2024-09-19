@@ -19,6 +19,7 @@ class RoboVacEntityFeature(IntEnum):
     BOOST_IQ = 1024
 
 
+
 ROBOVAC_SERIES = {
     "C": [
         "T2103",
