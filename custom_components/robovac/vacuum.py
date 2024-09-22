@@ -94,7 +94,6 @@ class TUYA_CODES(StrEnum):
     ERROR_CODE = "106"
     MODE = "5"
     FAN_SPEED = "130"
-    FAN_SPEED_OLD = "102"
     CLEANING_AREA = "110"
     CLEANING_TIME = "109"
     AUTO_RETURN = "135"
@@ -317,7 +316,7 @@ class RoboVacEntity(StateVacuumEntity):
             self.update_entity_values()
         except TuyaException as e:
             self.update_failures += 1
-            _LOGGER.warn(
+            _LOGGER.warning(
                 "Update errored. Current update failure count: {}. Reason: {}".format(
                     self.update_failures, e
                 )
@@ -338,27 +337,13 @@ class RoboVacEntity(StateVacuumEntity):
         self.error_code = self.tuyastatus.get(TUYA_CODES.ERROR_CODE)
         self._attr_mode = self.tuyastatus.get(TUYA_CODES.MODE)
         self._attr_fan_speed = self.tuyastatus.get(TUYA_CODES.FAN_SPEED)
-        self._attr_fan_speed_old = self.tuyastatus.get(TUYA_CODES.FAN_SPEED_OLD)
-
-
-        _LOGGER.warning(f"Fan 130: {self._attr_fan_speed}")
-        _LOGGER.warning(f"Fan 102: {self._attr_fan_speed_old}")
-        _LOGGER.warning(f"DPS: {self.tuyastatus}")
-        _LOGGER.warning(f"Fan Cached: {self.fan_speed}")
 
         if self.fan_speed == "No_suction":
             self._attr_fan_speed = "No Suction"
-        elif self.fan_speed == "Quiet":
-            self._attr_fan_speed = "Pure"
+        elif self.fan_speed == "Pure":
+            self._attr_fan_speed = "Quier"
         elif self.fan_speed == "Boost_IQ":
-            self._attr_fan_speed = "Max"
-        elif self.fan_speed == "Turbo":
-            self._attr_fan_speed = "Standard"
-        elif self.fan_speed == "Max":
-            self._attr_fan_speed = "Turbo"
-        
-        _LOGGER.warning(f"Fan Speed After 130: {self._attr_fan_speed}")
-
+            self._attr_fan_speed = "Boost IQ"
 
         # for G30
         self._attr_cleaning_area = self.tuyastatus.get(TUYA_CODES.CLEANING_AREA)
@@ -422,14 +407,7 @@ class RoboVacEntity(StateVacuumEntity):
             fan_speed = "Boost_IQ"
         elif fan_speed == "Pure":
             fan_speed = "Quiet"
-        elif fan_speed == "Standard":
-            fan_speed = "Turbo"
-        elif fan_speed == "Turbo":
-            fan_speed = "Max"
-        elif fan_speed == "Max":
-            fan_speed = "Boost_IQ"
-        _LOGGER.warning(f"Set Fan Speed: {fan_speed}")
-        #await self.vacuum.async_set({"102": fan_speed})
+        await self.vacuum.async_set({"102": fan_speed})
         await self.vacuum.async_set({"130": fan_speed})
 
     async def async_send_command(

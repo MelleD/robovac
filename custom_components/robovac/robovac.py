@@ -94,7 +94,7 @@ ROBOVAC_SERIES_FEATURES = {
 ROBOVAC_SERIES_FAN_SPEEDS = {
     "C": ["No Suction", "Standard", "Boost IQ", "Max"],
     "G": ["Standard", "Turbo", "Max", "Boost IQ"],
-    "L": ["Quiet", "Standard", "Turbo", "Max"],
+    "L": ["Quiet", "Turbo", "Max", "Boost IQ"],
     "X": ["Pure", "Standard", "Turbo", "Max"],
 }
 
